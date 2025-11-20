@@ -18,7 +18,7 @@ Ignores key order in objects.
 
 Normalizes JSON while preserving structural readability.
 
-Detects list objects and chooses the best join key automatically (e.g., id, uuid, codPrestazione, code, etc.).
+Detects list objects and chooses the best join key automatically (e.g., id, uuid, code, etc.).
 
 Aligns objects in lists by key instead of index, even when the order differs.
 
@@ -111,7 +111,7 @@ python3 json_comparator.py
 The GUI will open immediately.
 
 🧪 Example Use Case
-Comparing lists of “prestazioni” by codPrestazione
+Comparing lists of “card” by name
 
 Even if:
 
@@ -123,7 +123,7 @@ some fields differ while others match,
 
 …the comparator will:
 
-align items by codPrestazione,
+align items by name,
 
 highlight only the changed fields,
 
