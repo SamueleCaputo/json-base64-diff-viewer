@@ -1,173 +1,111 @@
-📘 JSON Base64 Smart Comparator
+# JSON Base64 Smart Comparator
 
-A desktop application for intelligently comparing JSON and Base64-encoded JSON with a clean side-by-side diff interface.
+A desktop application for intelligently comparing JSON and **Base64-encoded JSON** with a clean side-by-side diff interface.
+
 Designed specifically for datasets such as lists of objects, catalogs, and structured entities where order should be ignored and only real differences should matter.
 
-✨ Features
-🔍 JSON & Base64 Input Support
+---
 
-Accepts plain JSON or Base64-encoded JSON in both input fields.
+## ✨ Features
 
-Automatically detects and decodes Base64 when needed.
+### 🔍 JSON & Base64 Input Support
 
-Validates JSON with clear error messages.
+- Accepts **plain JSON** or **Base64-encoded JSON** in both input fields.
+- Automatically detects and **decodes Base64** when needed.
+- Validates JSON and shows **clear error messages** if parsing fails.
 
-🧠 Smart Structural Comparison
+### 🧠 Smart Structural Comparison
 
-Ignores key order in objects.
+- Ignores **key order** in objects.
+- Normalizes JSON while preserving structural readability.
+- Detects lists of objects and chooses the best **join key** automatically (e.g. `id`, `uuid`, `code`, etc.).
+- Aligns objects in lists **by key instead of index**, even when the order differs.
 
-Normalizes JSON while preserving structural readability.
+### 🎯 Precise Line-Level Highlighting
 
-Detects list objects and chooses the best join key automatically (e.g., id, uuid, code, etc.).
+- Highlights only the **exact lines** that differ.
+- Marks missing elements on either side.
+- No “full-block red highlighting”: only the specific keys/fields that differ are emphasized.
 
-Aligns objects in lists by key instead of index, even when the order differs.
+### 🪟 WinMerge-like Side-by-Side View
 
-🎯 Precise Line-Level Highlighting
+- Displays both normalized JSON documents in **separate panes**.
+- Highlights differences using a **soft red background**.
+- Very easy to visually compare two large datasets.
 
-Highlights only the exact lines that differ.
+### 🖥️ Simple Desktop GUI
 
-Marks missing elements on either side.
+- Built with **Tkinter** (no external dependencies).
+- Paste JSON or Base64 in the top section, click **Compare**, view the diff below.
+- Fully **offline** and lightweight.
 
-No “full-block red highlighting”: only the specific keys/fields that differ.
+---
 
-🪟 WinMerge-like Side-by-Side View
+## 🚀 How It Works
 
-Displays both normalized JSON documents in separate panes.
+### 1. Input Processing
 
-Highlights differences using a soft red background.
+For each input:
 
-Very easy to visually compare two large datasets.
+1. Tries to parse it as JSON.
+2. If that fails, tries to treat it as **Base64**:
+   - Base64 is decoded.
+   - The decoded text is then parsed as JSON.
+3. If both attempts fail, an error dialog explains what went wrong.
 
-🖥️ Simple Desktop GUI
+### 2. Normalization
 
-Built with Tkinter (no external dependencies).
+The app normalizes both structures before comparing them:
 
-Paste JSON or Base64 in the top section, click Compare, view the diff below.
+- **Objects**
+  - Keys are sorted alphabetically.
+- **Lists**
+  - Elements are normalized recursively.
+  - Lists are sorted using a stable structural representation (a “hash”-like freeze) so order does not matter.
 
-Fully offline and lightweight.
+### 3. Smart List Matching
 
-🚀 How It Works
+When a list contains dictionaries/objects:
 
-Input Processing
+- The comparator tries to detect a **unique join key** (e.g. `id`, `uuid`, `code`, etc.).
+- If found, this key is used to **align objects across lists**, regardless of position.
+- This makes it ideal for catalogs and entity lists where items have a logical identifier.
 
-Each input is checked:
+If no suitable join key is found, the tool falls back to **index-based comparison**.
 
-If Base64 → decoded → parsed as JSON
+### 4. Bidirectional Diffing
 
-If JSON → parsed directly
+The diff engine:
 
-Normalization
+- Compares matched objects **recursively**.
+- Tracks elements missing on the **left** and on the **right**.
+- Produces two sets of **diff paths**:
+  - Left-side differences.
+  - Right-side differences.
 
-Objects: keys sorted alphabetically
+### 5. Visual Highlighting
 
-Lists: elements normalized and sorted using a stable structural hash
+- Diff paths are mapped to the **exact line numbers** in the formatted output.
+- Only those lines are highlighted in the bottom panes.
+- Missing elements are clearly marked on the side where they are absent.
 
-Smart List Matching
+---
 
-If the list contains dicts, the comparator tries to detect a unique join key.
+## 📦 Requirements
 
-The chosen key is used to align objects correctly across the two lists.
+- **Python 3.8+**
+- **Tkinter**
+  - Included by default on Windows and macOS.
+  - On some Linux distributions, you may need to install it separately (e.g. `sudo apt install python3-tk`).
 
-Bidirectional Diffing
+No third-party Python packages are required.
 
-Compares matched objects recursively.
+---
 
-Tracks missing left/right elements.
-
-Produces two sets of “diff paths”: left-side differences and right-side differences.
-
-Visual Highlighting
-
-Paths are mapped to the exact line numbers.
-
-Only those lines are highlighted in the output panes.
-
-📦 Requirements
-
-Python 3.8+
-
-Tkinter (included by default on Windows/macOS; may require installation on some Linux distros)
-
-No third-party packages required.
-
-🏁 Installation
+## 🏁 Installation
 
 Clone the repository:
 
+```bash
 git clone https://github.com/yourname/json-base64-smart-comparator.git
 cd json-base64-smart-comparator
-
-
-Run the script:
-
-python json-base64-smart-comparator.py
-
-
-or
-
-python3 json-base64-smart-comparator.py
-
-
-The GUI will open immediately.
-
-🧪 Example Use Case
-Comparing lists of “card” by name
-
-Even if:
-
-the order differs,
-
-some items exist only in one list,
-
-some fields differ while others match,
-
-…the comparator will:
-
-align items by name,
-
-highlight only the changed fields,
-
-show missing entries only on the side where they are absent,
-
-report the difference in list size.
-
-This makes it ideal for:
-
-medical procedure catalogs
-
-product lists
-
-configuration sets
-
-any dataset with identifiable objects
-
-📁 Repository Structure
-/json-base64-smart-comparator
-│
-├── json-base64-smart-comparator.py     # main application (GUI + diff engine)
-└── README.md              # project documentation
-
-⚠️ Known Limitations
-
-If a list does not contain any unique or consistent key, the tool falls back to index-based comparison.
-
-Base64 decoding requires the encoded content to be strictly valid JSON.
-
-Extremely large JSON files may impact Tkinter performance.
-
-🤝 Contributing
-
-Contributions are welcome!
-You can propose:
-
-new join-key strategies,
-
-dark/light themes,
-
-export to HTML/PDF,
-
-filters (show only differences),
-
-performance improvements.
-
-Open an issue or submit a pull request.
