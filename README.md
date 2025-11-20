@@ -100,12 +100,12 @@ cd json-base64-smart-comparator
 
 Run the script:
 
-python json_comparator.py
+python json-base64-smart-comparator.py
 
 
 or
 
-python3 json_comparator.py
+python3 json-base64-smart-comparator.py
 
 
 The GUI will open immediately.
@@ -144,9 +144,8 @@ any dataset with identifiable objects
 📁 Repository Structure
 /json-base64-smart-comparator
 │
-├── json_comparator.py     # main application (GUI + diff engine)
-├── README.md              # project documentation
-└── LICENSE                # optional license file
+├── json-base64-smart-comparator.py     # main application (GUI + diff engine)
+└── README.md              # project documentation
 
 ⚠️ Known Limitations
 
